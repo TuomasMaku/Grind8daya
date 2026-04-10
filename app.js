@@ -293,9 +293,9 @@ function saveWeight(){
   if(chargesData[weightModalExName].length > 30) chargesData[weightModalExName].shift();
   store.set('chargesData', chargesData);
 
-  // Update badge in DOM
-  const badge = document.querySelector(`.ex-weight-badge[data-key="${weightModalKey}"]`);
-  if(badge) renderWeightBadge(weightModalExName, badge);
+  // Update button in DOM
+  const btn = document.querySelector(`.ex-kg-btn[data-key="${weightModalKey}"]`);
+  if(btn){ const last = chargesData[weightModalExName].slice(-1)[0]; btn.textContent = last.kg+'kg'; btn.classList.add('has-data'); }
 
   closeWeightModal();
   if(navigator.vibrate) navigator.vibrate(60);
@@ -380,7 +380,7 @@ days.forEach((day,i)=>{
         return `<div class="ex-row" data-key="${key}">
           <span class="ex-name">${ex.name}</span>
           <span class="ex-sets">${ex.sets}</span>
-          <span class="ex-weight-badge" data-key="${key}" data-exname="${safeName}" data-exsets="${safeSets}"></span>
+          <button class="ex-kg-btn" data-key="${key}" data-exname="${safeName}" data-exsets="${safeSets}">+kg</button>
           <span class="ex-check">✓</span>
         </div>`;
       }).join('')
@@ -429,9 +429,10 @@ days.forEach((day,i)=>{
   // Init done states
   card.querySelectorAll('.ex-row').forEach(row=>{ if(progState[row.dataset.key]) row.classList.add('done'); });
 
-  // Init weight badges
-  card.querySelectorAll('.ex-weight-badge').forEach(badge=>{
-    renderWeightBadge(badge.dataset.exname, badge);
+  // Init kg buttons
+  card.querySelectorAll('.ex-kg-btn').forEach(btn=>{
+    const entries = chargesData[btn.dataset.exname] || [];
+    if(entries.length){ const last=entries[entries.length-1]; btn.textContent=last.kg+'kg'; btn.classList.add('has-data'); }
   });
 
   // Toggle card open/close
@@ -443,8 +444,8 @@ days.forEach((day,i)=>{
 
   // Ex-row click handler
   card.addEventListener('click',e=>{
-    // Weight badge click — handled separately
-    if(e.target.closest('.ex-weight-badge')) return;
+    // Kg button click — handled separately
+    if(e.target.closest('.ex-kg-btn')) return;
     // Note textarea — don't intercept
     if(e.target.closest('.session-note-wrap')) return;
     const row=e.target.closest('.ex-row');
@@ -466,11 +467,11 @@ days.forEach((day,i)=>{
     updateHome();
   });
 
-  // Weight badge click handler
-  card.querySelectorAll('.ex-weight-badge').forEach(badge=>{
-    badge.addEventListener('click', e=>{
+  // Kg button click handler
+  card.querySelectorAll('.ex-kg-btn').forEach(btn=>{
+    btn.addEventListener('click', e=>{
       e.stopPropagation();
-      openWeightModal(badge.dataset.exname, badge.dataset.exsets, badge.dataset.key);
+      openWeightModal(btn.dataset.exname, btn.dataset.exsets, btn.dataset.key);
     });
   });
 
@@ -1003,7 +1004,7 @@ document.getElementById('modalConfirm').addEventListener('click',()=>{
     const noteEl=document.getElementById(`session-note-${i}`);
     if(noteEl) noteEl.value='';
   });
-  document.querySelectorAll('.ex-weight-badge').forEach(b=>{ b.textContent=''; });
+  document.querySelectorAll('.ex-kg-btn').forEach(b=>{ b.textContent='+kg'; b.classList.remove('has-data'); });
   document.querySelectorAll('.day-card.open').forEach(c=>c.classList.remove('open'));
   document.querySelectorAll('.day-card.cur-day-card').forEach(c=>c.classList.remove('cur-day-card'));
   challenges.forEach((_,i)=>{
