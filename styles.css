@@ -186,7 +186,8 @@
     min-width:36px; text-align:center;
     line-height:1.6;
   }
-  .ex-weight-badge:empty::before { content:'+kg'; color:var(--muted); font-size:11px; }
+  .ex-weight-badge { display:inline-block !important; min-width:36px; }
+  .ex-weight-badge:empty::before { content:'+kg'; color:#333; font-size:11px; }
   .ex-weight-badge:active { background:rgba(232,255,71,0.18); transform:scale(0.95); }
 
   /* ── WEIGHT MODAL ── */
