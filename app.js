@@ -222,9 +222,19 @@ let weightModalKey    = '';
 
 function renderWeightBadge(exName, badgeEl){
   const entries = chargesData[exName] || [];
-  if(!entries.length){ badgeEl.textContent=''; badgeEl.title=''; return; }
+  if(!entries.length){
+    badgeEl.textContent='+kg';
+    badgeEl.style.color='#444';
+    badgeEl.style.background='transparent';
+    badgeEl.style.borderColor='#2a2a2a';
+    badgeEl.title='';
+    return;
+  }
   const last = entries[entries.length-1];
   badgeEl.textContent = last.kg + 'kg';
+  badgeEl.style.color='';
+  badgeEl.style.background='';
+  badgeEl.style.borderColor='';
   badgeEl.title = entries.slice(-5).map(e=>`${e.date} · ${e.kg}kg × ${e.reps}`).join('\n');
 }
 
