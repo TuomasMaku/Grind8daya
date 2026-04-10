@@ -176,19 +176,21 @@
   .day-card[data-type="rest"]   .ex-sets { color:var(--rest); }
   .ex-check { font-size:14px; color:var(--accent); flex-shrink:0; opacity:0; transition:opacity 0.2s; margin-left:2px; }
 
-  /* ── WEIGHT BADGE ── */
-  .ex-weight-badge {
-    font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700;
-    color:var(--accent); background:rgba(232,255,71,0.08);
-    border:1px solid rgba(232,255,71,0.2);
-    padding:2px 7px; flex-shrink:0; cursor:pointer;
-    transition:background 0.15s, transform 0.1s;
-    min-width:36px; text-align:center;
-    line-height:1.6;
+  /* ── KG BUTTON ── */
+  .ex-kg-btn {
+    font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700;
+    color:#444; background:transparent;
+    border:1px solid #2a2a2a;
+    padding:4px 8px; flex-shrink:0; cursor:pointer;
+    transition:all 0.15s;
+    min-width:38px; text-align:center; line-height:1.4;
+    letter-spacing:1px; text-transform:uppercase;
   }
-  .ex-weight-badge { display:inline-block !important; min-width:36px; }
-  .ex-weight-badge:empty::before { content:'+kg'; color:#333; font-size:11px; }
-  .ex-weight-badge:active { background:rgba(232,255,71,0.18); transform:scale(0.95); }
+  .ex-kg-btn.has-data {
+    color:var(--accent); background:rgba(232,255,71,0.08);
+    border-color:rgba(232,255,71,0.25);
+  }
+  .ex-kg-btn:active { transform:scale(0.93); }
 
   /* ── WEIGHT MODAL ── */
   .weight-modal-box { border-color:rgba(232,255,71,0.3) !important; }
